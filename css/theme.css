@@ -1,31 +1,35 @@
 body {
-  padding-top: 70px;
-  padding-bottom: 30px;
+    padding-top: 70px;
+    padding-bottom: 30px;
 }
-
-.theme-dropdown .dropdown-menu {
-  position: static;
-  display: block;
-  margin-bottom: 20px;
+#mapid {
+    height: 360px;
 }
-
-.theme-showcase > p > .btn {
-  margin: 5px 0;
+.filter-box {
+    margin-top: 20px;
+    padding: 5px;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: grey;
+    border-width: 1px;
+    min-height: 100px;
+    position: relative;
 }
-
-/*.theme-showcase .navbar .container {
-  width: auto;
-}*/
-
-#mapid { height: 360px; }
-
-.filter-box{
-  padding: 5px;
-  border-radius: 5px;
-  border-style: solid;
-  border-color: grey;
-  border-width: 1px;
-  min-height: 100px;
+.filter-box-title {
+    margin: 0, auto;
+    text-align: center;
+}
+.filter-name {
+    font-weight: bold;
+    margin-right: 50px;
+}
+.options{
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+.selectorDisp {
+    position: relative;
+    right: 0;
 }
 
 .tableauPlaceholder{
