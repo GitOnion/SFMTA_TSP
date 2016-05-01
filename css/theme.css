@@ -31,3 +31,12 @@ body {
     position: relative;
     right: 0;
 }
+
+.tableauPlaceholder{
+  padding: 5px;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: grey;
+  border-width: 1px;
+  min-height: 100px;
+}
