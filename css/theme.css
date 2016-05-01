@@ -27,3 +27,12 @@ body {
   border-width: 1px;
   min-height: 100px;
 }
+
+.tableauPlaceholder{
+  padding: 5px;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: grey;
+  border-width: 1px;
+  min-height: 100px;
+}
