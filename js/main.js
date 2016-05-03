@@ -1,6 +1,8 @@
 // LeafletJS: Setting up the map
 var mymap = L.map('mapid', {
-    zoomControl: false
+    touchZoom: false,
+    scrollWheelZoom: false,
+    doubleClickZoom: false
 }).setView([37.785, -122.465], 16);
 
 // Adding Tile Layer (the map)
@@ -38,6 +40,12 @@ var IBIconSelect = new stopIcon({
     iconAnchor: [15,0]
 });
 
+var routeLineOptions = {
+    color: 'yellow',
+    weight: 5,
+    lineCap: 'round'
+};
+
 //Coordinates and names of Outbound stops
 var OBCoord = [
     [37.78573, -122.45956],
@@ -64,6 +72,7 @@ var IBStopNames = ['PresidioIB', '12thIB', '10thIB', '8thIB', '6thIB', '4thIB', 
 
 //Holder of all markers
 var allStops = {};
+var allLines = {};
 
 //Instantiate markers and assign names to stop coordinates, then store the object in OBStops
 $.each(OBCoord, function(stopNo, stopCoord) {
@@ -89,6 +98,7 @@ $.each(IBCoord, function(stopNo, stopCoord) {
 //Also change the corresponding marker's icon;
 function formSelectionEvent(element, display) {
     var select = element.value;
+    var direction = select.substr(-2);
     var stopMarker = allStops[select];
     var textHolder = display.text();
     if ($(element).prop('checked')) {
@@ -97,7 +107,8 @@ function formSelectionEvent(element, display) {
         display.text(textHolder);
         //Change corresponding icon
         if(stopMarker){
-            iconChanger(stopMarker, 'checked', select.substr(-2));
+            iconChanger(stopMarker, 'checked', direction);
+            lineDrawer(select, stopMarker, 'checked', direction);
         }
     } else {
         //Pop selection from display when it's been deselected
@@ -107,7 +118,8 @@ function formSelectionEvent(element, display) {
         display.text(textHolder);
         //Change icon
         if(stopMarker){
-            iconChanger(stopMarker, 'unchecked', select.substr(-2));
+            iconChanger(stopMarker, 'unchecked', direction);
+            lineDrawer(select, stopMarker, 'unchecked', direction);
         }
     }
 }
@@ -132,10 +144,34 @@ function iconChanger(stop, status, direction){
     }
 }
 
-function lineDrawer(stop){
-    var desCoord = stop.getLatLng();
+function lineDrawer(select, stop, status, direction){
+    var desCoord = [stop.getLatLng().lat, stop.getLatLng().lng];
+    var oriCoord;
+    // Finding the coordinates of the previous stop
+    if (direction == 'OB'){
+        oriCoord = OBCoord[findIndexOfCoord(OBCoord, desCoord)-1];
+    }
+    else if (direction == 'IB'){
+        oriCoord = IBCoord[findIndexOfCoord(IBCoord, desCoord)-1];
+    }
+    console.log([oriCoord, desCoord]);
+    // Attaching line;
+    if (status == 'checked') {
+        allLines[select] = L.polyline([oriCoord, desCoord], routeLineOptions).addTo(mymap);
+    }
+    else if (status == 'unchecked'){
+        mymap.removeLayer(allLines[select]);
+    }
 }
 
+function findIndexOfCoord(coordArray, target){
+    for (var i=0; i<coordArray.length; i++){
+        if(coordArray[i][0] == target[0] && coordArray[i][1] == target[1]){
+            return i;
+        }
+    }
+}
+// 534687max
 //Day of Week Checkbox Group
 $('input:checkbox[name="day"]').change(function() {
     formSelectionEvent(this, $('#day'));
