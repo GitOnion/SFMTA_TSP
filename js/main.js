@@ -1,5 +1,7 @@
 // LeafletJS: Setting up the map
-var mymap = L.map('mapid', {zoomControl: false}).setView([37.785, -122.465], 16);
+var mymap = L.map('mapid', {
+    zoomControl: false
+}).setView([37.785, -122.465], 16);
 
 // Adding Tile Layer (the map)
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -9,48 +11,134 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
     accessToken: 'pk.eyJ1Ijoic3VwZXJvbmlvbiIsImEiOiJjaW41anY0MWMwY3FqdXBra2Nudm5keTdiIn0.QU9itsq1crBsfAWmmGFbBg'
 }).addTo(mymap);
 
-//Define the marker class
+//Define the icon class
 var stopIcon = L.Icon.extend({
     options: {
         iconSize: [30, 30],
-        shadowSize: [33, 15]
     }
 });
 //Instantiate the Icons
-var OBIcon = new stopIcon({iconUrl: 'left.svg', shadowUrl: 'shadow_left.svg', iconAnchor: [15, 30], shadowAnchor: [9,15]});
-var IBIcon = new stopIcon({iconUrl: 'right.svg', shadowUrl: 'shadow_right.svg', iconAnchor: [15, 0], shadowAnchor: [9, -15]});
+//Normal (unselected) Icons
+var OBIcon = new stopIcon({
+    iconUrl: 'OB.svg',
+    iconAnchor: [15, 30]
+});
+var IBIcon = new stopIcon({
+    iconUrl: 'IB.svg',
+    iconAnchor: [15, 0]
+});
+
+//Selected Icons
+var OBIconSelect = new stopIcon({
+    iconUrl: 'OB_select.svg',
+    iconAnchor: [15, 30]
+});
+var IBIconSelect = new stopIcon({
+    iconUrl: 'IB_select.svg',
+    iconAnchor: [15,0]
+});
 
 //Coordinates and names of Outbound stops
-var OBCoord = [[37.785729, -122.459564],[37.785386, -122.462279], [37.785037, -122.464890], [37.784794, -122.466989], [37.784688, -122.469160], [37.784617, -122.470800], [37.784527, -122.472972]];
+var OBCoord = [
+    [37.78573, -122.45956],
+    [37.78539, -122.46228],
+    [37.78504, -122.46489],
+    [37.78479, -122.46699],
+    [37.78469, -122.46916],
+    [37.78462, -122.47080],
+    [37.78453, -122.47297]
+];
 var OBStopNames = ['ArguelloOB', '4thOB', '6thOB', '8thOB', '10thOB', '12thOB', 'PresidioOB'];
-var OBStops = {};
 
 //Coordinates and names of Inbound stops
-var IBCoord = [[37.784357, -122.472820],[37.784447, -122.471171], [37.784540, -122.469060], [37.784633, -122.466895], [37.784896, -122.464782], [37.785171, -122.462623], [37.785637, -122.458982]];
+var IBCoord = [
+    [37.78436, -122.47282],
+    [37.78445, -122.47117],
+    [37.78454, -122.46906],
+    [37.78463, -122.46689],
+    [37.78490, -122.46478],
+    [37.78517, -122.46262],
+    [37.78564, -122.45898]
+];
 var IBStopNames = ['PresidioIB', '12thIB', '10thIB', '8thIB', '6thIB', '4thIB', 'ArguelloIB'];
-var IBStops = {};
+
+//Holder of all markers
+var allStops = {};
 
 //Instantiate markers and assign names to stop coordinates, then store the object in OBStops
-$.each(OBCoord, function(stopNo, stopCoord){
+$.each(OBCoord, function(stopNo, stopCoord) {
     var stopName = OBStopNames[stopNo];
-    OBStops[stopName] = L.marker(stopCoord, {icon: OBIcon}).on('click', function(e){
+    allStops[stopName] = L.marker(stopCoord, {
+        icon: OBIcon
+    }).on('click', function(e) {
         stopSelector(e, stopName);
     }).addTo(mymap);
 });
 
 //Instantiate markers and assign names to stop coordinates, then store the object in IBStops
-$.each(IBCoord, function(stopNo, stopCoord){
+$.each(IBCoord, function(stopNo, stopCoord) {
     var stopName = IBStopNames[stopNo];
-    IBStops[stopName] = L.marker(stopCoord, {icon: IBIcon}).on('click', function(e){
+    allStops[stopName] = L.marker(stopCoord, {
+        icon: IBIcon
+    }).on('click', function(e) {
         stopSelector(e, stopName);
     }).addTo(mymap);
 });
 
-//Day of Week RadioButton Group
-$('input:radio[name="day"]').change(function(){
-    var daySelected = this.value;
-    console.log(daySelected);
-    $('#day').text(daySelected);
+//Add and pop selection into display when it's been selected/deselected,
+//Also change the corresponding marker's icon;
+function formSelectionEvent(element, display) {
+    var select = element.value;
+    var stopMarker = allStops[select];
+    var textHolder = display.text();
+    if ($(element).prop('checked')) {
+        //Add selection into display when it's been selected
+        textHolder = textHolder + ' ' + select;
+        display.text(textHolder);
+        //Change corresponding icon
+        if(stopMarker){
+            iconChanger(stopMarker, 'checked', select.substr(-2));
+        }
+    } else {
+        //Pop selection from display when it's been deselected
+        var selectLength = select.length;
+        selectIndex = textHolder.indexOf(select);
+        textHolder = textHolder.substr(0, selectIndex) + textHolder.substr(selectIndex + selectLength);
+        display.text(textHolder);
+        //Change icon
+        if(stopMarker){
+            iconChanger(stopMarker, 'unchecked', select.substr(-2));
+        }
+    }
+}
+
+//Change the marker's icon according to the stop selected
+function iconChanger(stop, status, direction){
+    if (status == 'checked'){
+        if(direction == 'OB'){
+            stop.setIcon(OBIconSelect);
+        }
+        else if(direction == 'IB'){
+            stop.setIcon(IBIconSelect);
+        }
+    }
+    else if (status == 'unchecked'){
+        if(direction == 'OB'){
+            stop.setIcon(OBIcon);
+        }
+        else if(direction == 'IB'){
+            stop.setIcon(IBIcon);
+        }
+    }
+}
+
+function lineDrawer(stop){
+    var desCoord = stop.getLatLng();
+}
+
+//Day of Week Checkbox Group
+$('input:checkbox[name="day"]').change(function() {
+    formSelectionEvent(this, $('#day'));
 });
 
 //Time of Day Slider
@@ -60,11 +148,11 @@ $("#slider-range").slider({
     min: 0,
     max: 960,
     values: [60, 180],
-    step:5,
+    step: 5,
     slide: slideTime
 });
 
-function slideTime(event, ui){
+function slideTime(event, ui) {
     //read the slider's values
     var time0 = ui.values[0];
     var time1 = ui.values[1];
@@ -73,55 +161,47 @@ function slideTime(event, ui){
 }
 
 //Time feedback formater
-function timeFormat(time){
-    var hour = parseInt(time/60+6, 10).toString();
-    var minute = parseInt(time%60, 10).toString();
-    if (hour.length === 1){
+function timeFormat(time) {
+    var hour = parseInt(time / 60 + 6, 10).toString();
+    var minute = parseInt(time % 60, 10).toString();
+    if (hour.length === 1) {
         hour = "0" + hour;
     }
-    if (minute.length === 1){
+    if (minute.length === 1) {
         minute = "0" + minute;
     }
     return hour + ':' + minute;
 }
 
-//IB/OB RadioButton Default: Outbound
-$('input:radio[name="inbound"]').attr('disabled', true);
-$('.options-IB').attr('style', 'color:#eee');
-
-//IB/OB RadioButton Group
-$('input:radio[name="direction"]').change(function(){
-    if(this.value == 'Inbound'){
-        $('input:radio[name="outbound"]').attr('disabled', true);
-        $('.options-OB').attr('style', 'color:#eee');
-        $('#OBSelect').text('');
-        $('input:radio[name="inbound"]').attr('disabled', false);
-        $('.options-IB').attr('style', 'color: black');
-    }
-    else if (this.value =='Outbound') {
-        $('input:radio[name="inbound"]').attr('disabled', true);
-        $('.options-IB').attr('style', 'color:#eee');
-        $('#IBSelect').text('');
-        $('input:radio[name="outbound"]').attr('disabled', false);
-        $('.options-OB').attr('style', 'color: black');
+//IB/OB checkbox group selection
+$('input:checkbox[name="direction"]').change(function() {
+    if ($(this).prop('checked')) {
+        if (this.value == 'Outbound') {
+            $('input:checkbox[name="outbound"]').prop('checked', true).each(function() {
+                formSelectionEvent(this, $('#OBSelect'));
+            });
+        } else if (this.value == 'Inbound') {
+            $('input:checkbox[name="inbound"]').prop('checked', true).each(function() {
+                formSelectionEvent(this, $('#IBSelect'));
+            });
+        }
+    } else if ($(this).prop('checked') === false) {
+        if (this.value == 'Outbound') {
+            $('input:checkbox[name="outbound"]').prop('checked', false).each(function() {
+                formSelectionEvent(this, $('#OBSelect'));
+            });
+        } else if (this.value == 'Inbound') {
+            $('input:checkbox[name="inbound"]').prop('checked', false).each(function() {
+                formSelectionEvent(this, $('#IBSelect'));
+            });
+        }
     }
 });
 
 //Stops RadioButton Group
-$('input:radio[name="outbound"]').change(function(){
-    stopSelectFromRadio(this, 'ob');
+$('input:checkbox[name="outbound"]').change(function() {
+    formSelectionEvent(this, $('#OBSelect'));
 });
-$('input:radio[name="inbound"]').change(function(){
-    stopSelectFromRadio(this, 'ib');
+$('input:checkbox[name="inbound"]').change(function() {
+    formSelectionEvent(this, $('#IBSelect'));
 });
-
-function stopSelectFromRadio(selected, flag){
-    var stopSelected = selected.value;
-    console.log(stopSelected);
-    if(flag=='ob'){
-        $('#OBSelect').text(stopSelected);
-    }
-    else if (flag=='ib') {
-        $('#IBSelect').text(stopSelected);
-    }
-}

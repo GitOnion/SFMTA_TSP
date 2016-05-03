@@ -87,31 +87,31 @@
                         <div class="options">
                             <td>
                                 <label for="Monday">Mon.</label>
-                                <input type="radio" name="day" class="radioOptions" id="Monday" value="Monday" checked="checked"/>
+                                <input type="checkbox" name="day" class="radioOptions" id="Monday" value="Monday" checked="checked"/>
                             </td>
                             <td>
                                 <label for="Tuesday">Tue.</label>
-                                <input type="radio" name="day" class="radioOptions" id="Tuesday" value="Tuesday" />
+                                <input type="checkbox" name="day" class="radioOptions" id="Tuesday" value="Tuesday" />
                             </td>
                             <td>
                                 <label for="Wednesday">Wed.</label>
-                                <input type="radio" name="day" class="radioOptions" id="Wedneday" value="Wedneday" />
+                                <input type="checkbox" name="day" class="radioOptions" id="Wedneday" value="Wedneday" />
                             </td>
                             <td>
                                 <label for="Thursday">Thu.</label>
-                                <input type="radio" name="day" class="radioOptions" id="Thursday" value="Thursday" />
+                                <input type="checkbox" name="day" class="radioOptions" id="Thursday" value="Thursday" />
                             </td>
                             <td>
                                 <label for="Friday">Fri.</label>
-                                <input type="radio" name="day" class="radioOptions" id="Friday" value="Friday" />
+                                <input type="checkbox" name="day" class="radioOptions" id="Friday" value="Friday" />
                             </td>
                             <td>
                                 <label for="Saturday">Sat.</label>
-                                <input type="radio" name="day" class="radioOptions" id="Saturday" value="Saturday" />
+                                <input type="checkbox" name="day" class="radioOptions" id="Saturday" value="Saturday" />
                             </td>
                             <td>
                                 <label for="Sunday">Sun.</label>
-                                <input type="radio" name="day" class="radioOptions" id="Sunday" value="Sunday" />
+                                <input type="checkbox" name="day" class="radioOptions" id="Sunday" value="Sunday" />
                             </td>
                         </div>
                     <hr />
@@ -121,84 +121,84 @@
                         </div>
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-4">
                 <div class="filter-box">
-                    <h4 class="filter-box-title">Stop Selectors</h4>
+                    <h4 class="filter-box-title">Stop Selector</h4>
                     <br />
                     <div>
                         <label for="Outbound">Outbound</label>
-                        <input type="radio" name="direction" class="direction" id="Outbound" value="Outbound" checked="checked"/>
+                        <input type="checkbox" name="direction" class="direction" id="Outbound" value="Outbound" />
                         <span class="filter-name"></span><span id="OBSelect"></span>
                     </div>
-                        <div class="options options-OB">
-                            <td>
-                                <label for="PresidioOB">Presidio</label>
-                                <input type="radio" name="outbound" class="radioOptions" id="PresidioOB" value="PresidioOB" checked="checked"/>
-                            </td>
-                            <td>
-                                <label for="12thOB">12th</label>
-                                <input type="radio" name="outbound" class="radioOptions" id="12thOB" value="12thOB" />
-                            </td>
-                            <td>
-                                <label for="10thOB">10th</label>
-                                <input type="radio" name="outbound" class="radioOptions" id="10thOB" value="10thOB" />
-                            </td>
-                            <td>
-                                <label for="8thOB">8th</label>
-                                <input type="radio" name="outbound" class="radioOptions" id="8thOB" value="8thOB" />
-                            </td>
-                            <td>
-                                <label for="6thOB">6th</label>
-                                <input type="radio" name="outbound" class="radioOptions" id="6thOB" value="6thOB" />
-                            </td>
-                            <td>
-                                <label for="4thOB">4th</label>
-                                <input type="radio" name="outbound" class="radioOptions" id="4thOB" value="4thOB" />
-                            </td>
-                            <td>
-                                <label for="ArguelloOB">Arguello</label>
-                                <input type="radio" name="outbound" class="radioOptions" id="ArguelloOB" value="ArguelloOB" />
-                            </td>
-                        </div>
+                    <div class="options options-OB">
+                        <td>
+                            <label for="PresidioOB">Presidio</label>
+                            <input type="checkbox" name="outbound" class="radioOptions" id="PresidioOB" value="PresidioOB" />
+                        </td>
+                        <td>
+                            <label for="12thOB">12th</label>
+                            <input type="checkbox" name="outbound" class="radioOptions" id="12thOB" value="12thOB" />
+                        </td>
+                        <td>
+                            <label for="10thOB">10th</label>
+                            <input type="checkbox" name="outbound" class="radioOptions" id="10thOB" value="10thOB" />
+                        </td>
+                        <td>
+                            <label for="8thOB">8th</label>
+                            <input type="checkbox" name="outbound" class="radioOptions" id="8thOB" value="8thOB" />
+                        </td>
+                        <td>
+                            <label for="6thOB">6th</label>
+                            <input type="checkbox" name="outbound" class="radioOptions" id="6thOB" value="6thOB" />
+                        </td>
+                        <td>
+                            <label for="4thOB">4th</label>
+                            <input type="checkbox" name="outbound" class="radioOptions" id="4thOB" value="4thOB" />
+                        </td>
+                        <!-- <td>
+                            <label for="ArguelloOB">Arguello</label>
+                            <input type="checkbox" name="outbound" class="radioOptions" id="ArguelloOB" value="ArguelloOB" />
+                        </td> -->
+                    </div>
                     <hr />
-                    <div class="filter-name">
+                    <div>
                         <label for="Inbound">Inbound</label>
-                        <input type="radio" name="direction" class="direction" id="Inbound" value="Inbound"/>
+                        <input type="checkbox" name="direction" class="direction" id="Inbound" value="Inbound"/>
                         <span class="filter-name"></span><span id="IBSelect"></span>
                     </div>
                     <div class="options options-IB">
-                        <td>
+                        <!-- <td>
                             <label for="PresidioIB">Presidio</label>
-                            <input type="radio" name="inbound" class="radioOptions" id="PresidioIB" value="PresidioIB" checked="checked"/>
-                        </td>
+                            <input type="checkbox" name="inbound" class="radioOptions" id="PresidioIB" value="PresidioIB" />
+                        </td> -->
                         <td>
                             <label for="12thIB">12th</label>
-                            <input type="radio" name="inbound" class="radioOptions" id="12thIB" value="12thIB" />
+                            <input type="checkbox" name="inbound" class="radioOptions" id="12thIB" value="12thIB" />
                         </td>
                         <td>
                             <label for="10thIB">10th</label>
-                            <input type="radio" name="inbound" class="radioOptions" id="10thIB" value="10thIB" />
+                            <input type="checkbox" name="inbound" class="radioOptions" id="10thIB" value="10thIB" />
                         </td>
                         <td>
                             <label for="8thIB">8th</label>
-                            <input type="radio" name="inbound" class="radioOptions" id="8thIB" value="8thIB" />
+                            <input type="checkbox" name="inbound" class="radioOptions" id="8thIB" value="8thIB" />
                         </td>
                         <td>
                             <label for="6thIB">6th</label>
-                            <input type="radio" name="inbound" class="radioOptions" id="6thIB" value="6thIB" />
+                            <input type="checkbox" name="inbound" class="radioOptions" id="6thIB" value="6thIB" />
                         </td>
                         <td>
                             <label for="4thIB">4th</label>
-                            <input type="radio" name="inbound" class="radioOptions" id="4thIB" value="4thIB" />
+                            <input type="checkbox" name="inbound" class="radioOptions" id="4thIB" value="4thIB" />
                         </td>
                         <td>
                             <label for="ArguelloIB">Arguello</label>
-                            <input type="radio" name="inbound" class="radioOptions" id="ArguelloIB" value="ArguelloIB" />
+                            <input type="checkbox" name="inbound" class="radioOptions" id="ArguelloIB" value="ArguelloIB" />
                         </td>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="filter-box">
                 </div>
             </div>
