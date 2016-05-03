@@ -118,6 +118,17 @@ $('input:radio[name="inbound"]').change(function(){
 function stopSelectFromRadio(selected, flag){
     var stopSelected = selected.value;
     console.log(stopSelected);
+	
+	// Added by Paul: 
+	$( "#busName" ).empty();
+	$( "#busName" ).append( stopNames[stopSelected] );
+	
+	$( "#busLen" ).empty()
+	$( "#busLen" ).append( stopLen[stopSelected] + " feet" );
+	
+	$( "#busLights" ).empty()
+	$( "#busLights").append( $.each( stopLights[stopSelected], function(i, val) {'<tr><td>' + val + '</td></tr>'} ))
+	
     if(flag=='ob'){
         $('#OBSelect').text(stopSelected);
     }
@@ -125,3 +136,48 @@ function stopSelectFromRadio(selected, flag){
         $('#IBSelect').text(stopSelected);
     }
 }
+
+
+//Create object of bus stop names
+var stopNames = {'ArguelloOB':'California St. and Arguello Blvd., Outbound',
+				'4thOB':'California St. and 4th Ave., Outbound',
+				'6thOB':'California St. and 6th Ave., Outbound', 
+				'8thOB':'California St. and 8th Ave., Outbound', 
+				'10thOB':'California St. and 10th Ave., Outbound', 
+				'12thOB':'California St. and 12th Ave., Outbound', 
+				'PresidioOB':'California St. and Park Presidio Blvd., Outbound',
+				'PresidioIB':'California St. and Park Presidio Blvd., Inbound', 
+				'12thIB':'California St. and 12th Ave., Inbound', 
+				'10thIB':'California St. and 10th Ave., Inbound', 
+				'8thIB':'California St. and 8th Ave., Inbound', 
+				'6thIB':'California St. and 6th Ave., Inbound', 
+				'4thIB':'California St. and 4th Ave., Inbound', 
+				'ArguelloIB':'California St. and Arguello Blvd., Inbound'};
+				
+//Create object of bus stop names
+var stopLen = {	'4thOB':789.63,
+				'6thOB':756.92, 
+				'8thOB':633.91, 
+				'10thOB':623.75, 
+				'12thOB':475.05, 
+				'PresidioOB':619.58,
+				'12thIB':485.28, 
+				'10thIB':614.66, 
+				'8thIB':623.6, 
+				'6thIB':616.69, 
+				'4thIB':631.61, 
+				'ArguelloIB':1097.69};
+
+var stopLights = {	'4thOB':['None'],
+				'6thOB':['4th Ave.','6th Ave.'], 
+				'8thOB':['8th Ave.'], 
+				'10thOB':['10th Ave.'], 
+				'12thOB':['None'], 
+				'PresidioOB':['12th Ave.','Park Presidio Blvd.'], 
+				'12thIB':['Park Presidio Blvd.'], 
+				'10thIB':['12th Ave.'], 
+				'8thIB':['10th Ave.'], 
+				'6thIB':['8th Ave.'], 
+				'4thIB':['6th Ave.'], 
+				'ArguelloIB':['6th Ave.','Arguello Blvd.']};
+				
