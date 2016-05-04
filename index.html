@@ -33,8 +33,6 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     <!-- Import leafletjs -->
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
-	<script type='text/javascript' src='https://public.tableau.com/javascripts/api/viz_v1.js'></script>
-
 </head>
 
 <body role="document">
@@ -59,56 +57,57 @@
     </div>
     <div class="container selector-container">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="filter-box">
                     <h4 class="filter-box-title">Time Selectors</h4>
                     <br />
-                    <span class="filter-name">Day of Week:</span><span id="day">Monday</span>
-                        <div class="options">
-                            <td>
-                                <label for="Monday">Mon.</label>
-                                <input type="checkbox" name="day" class="radioOptions" id="Monday" value="Monday" checked="checked"/>
-                            </td>
-                            <td>
-                                <label for="Tuesday">Tue.</label>
-                                <input type="checkbox" name="day" class="radioOptions" id="Tuesday" value="Tuesday" />
-                            </td>
-                            <td>
-                                <label for="Wednesday">Wed.</label>
-                                <input type="checkbox" name="day" class="radioOptions" id="Wedneday" value="Wedneday" />
-                            </td>
-                            <td>
-                                <label for="Thursday">Thu.</label>
-                                <input type="checkbox" name="day" class="radioOptions" id="Thursday" value="Thursday" />
-                            </td>
-                            <td>
-                                <label for="Friday">Fri.</label>
-                                <input type="checkbox" name="day" class="radioOptions" id="Friday" value="Friday" />
-                            </td>
-                            <td>
-                                <label for="Saturday">Sat.</label>
-                                <input type="checkbox" name="day" class="radioOptions" id="Saturday" value="Saturday" />
-                            </td>
-                            <td>
-                                <label for="Sunday">Sun.</label>
-                                <input type="checkbox" name="day" class="radioOptions" id="Sunday" value="Sunday" />
-                            </td>
-                        </div>
+                    <span class="filter-name">Day of Week:</span>
+                    <div class="options">
+                        <td>
+                            <label for="Monday">Mon.</label>
+                            <input type="checkbox" name="day" class="radioOptions" id="Monday" value="Monday" checked="checked" />
+                        </td>
+                        <td>
+                            <label for="Tuesday">Tue.</label>
+                            <input type="checkbox" name="day" class="radioOptions" id="Tuesday" value="Tuesday" />
+                        </td>
+                        <td>
+                            <label for="Wednesday">Wed.</label>
+                            <input type="checkbox" name="day" class="radioOptions" id="Wedneday" value="Wedneday" />
+                        </td>
+                        <td>
+                            <label for="Thursday">Thu.</label>
+                            <input type="checkbox" name="day" class="radioOptions" id="Thursday" value="Thursday" />
+                        </td>
+                        <td>
+                            <label for="Friday">Fri.</label>
+                            <input type="checkbox" name="day" class="radioOptions" id="Friday" value="Friday" />
+                        </td>
+                        <td>
+                            <label for="Saturday">Sat.</label>
+                            <input type="checkbox" name="day" class="radioOptions" id="Saturday" value="Saturday" />
+                        </td>
+                        <td>
+                            <label for="Sunday">Sun.</label>
+                            <input type="checkbox" name="day" class="radioOptions" id="Sunday" value="Sunday" />
+                        </td>
+                    </div>
                     <hr />
-                    <span class="filter-name">Time of Day: </span><span id="time">07:00 - 09:00</span>
-                        <div class="options">
-                            <div id="slider-range"></div>
-                        </div>
+                    <span class="filter-name">Time of Day: </span>
+                    <div style="min-height:8px"></div>
+                    <div class="options">
+                        <div id="slider-range"></div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="filter-box">
-                    <h4 class="filter-box-title">Stop Selector</h4>
+                    <h4 class="filter-box-title">Individual Stop</h4>
                     <br />
                     <div>
                         <label for="Outbound">Outbound</label>
                         <input type="checkbox" name="direction" class="direction" id="Outbound" value="Outbound" />
-                        <span class="filter-name"></span><span id="OBSelect"></span>
+                        <span class="filter-name"></span>
                     </div>
                     <div class="options options-OB">
                         <td>
@@ -143,8 +142,8 @@
                     <hr />
                     <div>
                         <label for="Inbound">Inbound</label>
-                        <input type="checkbox" name="direction" class="direction" id="Inbound" value="Inbound"/>
-                        <span class="filter-name"></span><span id="IBSelect"></span>
+                        <input type="checkbox" name="direction" class="direction" id="Inbound" value="Inbound" />
+                        <span class="filter-name"></span>
                     </div>
                     <div class="options options-IB">
                         <!-- <td>
@@ -178,14 +177,61 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <div class="filter-box">
+                    <h4 class="filter-box-title">Stop by Type</h4>
+                    <br />
+                    <span class="filter-name">Origin stop: </span>
+                    <div class="options">
+                        <label for="originNear">Near</label>
+                        <input type="radio" name="origin" class="origin" id="originNear" value="originNear" />
+                        <label for="originFar">Far</label>
+                        <input type="radio" name="origin" class="origin" id="originFar" value="originFar" />
+                    </div>
+                    <hr />
+                    <span class="filter-name">Destination stop: </span>
+                    <div class="options">
+                        <label for="destinNear">Near</label>
+                        <input type="radio" name="destination" class="destination" id="destinNear" value="destinNear" />
+                        <label for="destinFar">Far</label>
+                        <input type="radio" name="destination" class="destination" id="destinFar" value="destinFar" />
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="filter-box">
+                    <h4 class="filter-box-title">Filters</h4>
+                    <span id="day">Monday</span>
+                    <span id="time">07:00 - 09:00</span>
+                    <span id="OBSelect"></span>
+                    <span id="IBSelect"></span>
+                </div>
+            </div>
+
+        </div>
     </div>
 
-	<div class='tableauPlaceholder container' style='width: 982px; height: 742px;'><noscript><a href='#'><img alt='Sheet 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;TS&#47;TSP_embed&#47;Sheet1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz' width='982' height='742' style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='site_root' value='' /><param name='name' value='TSP_embed&#47;Sheet1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;TS&#47;TSP_embed&#47;Sheet1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='showTabs' value='y' /></object></div>
+    <div class='tableauPlaceholder container' style='width: 982px; height: 742px;'>
+        <noscript>
+            <a href='#'><img alt='Sheet 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;TS&#47;TSP_embed&#47;Sheet1&#47;1_rss.png' style='border: none' /></a>
+        </noscript>
+        <object class='tableauViz' width='982' height='742' style='display:none;'>
+            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+            <param name='site_root' value='' />
+            <param name='name' value='TSP_embed&#47;Sheet1' />
+            <param name='tabs' value='no' />
+            <param name='toolbar' value='yes' />
+            <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;TS&#47;TSP_embed&#47;Sheet1&#47;1.png' />
+            <param name='animate_transition' value='yes' />
+            <param name='display_static_image' value='yes' />
+            <param name='display_spinner' value='yes' />
+            <param name='display_overlay' value='yes' />
+            <param name='display_count' value='yes' />
+            <param name='showTabs' value='y' />
+        </object>
+    </div>
 
 
 
@@ -205,6 +251,7 @@
     <!-- leafletjs script -->
     <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
     <script src="js/main.js"></script>
+    <script type='text/javascript' src='https://public.tableau.com/javascripts/api/viz_v1.js'></script>
 
 </body>
 

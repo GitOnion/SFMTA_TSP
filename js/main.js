@@ -3,7 +3,7 @@ var mymap = L.map('mapid', {
     touchZoom: false,
     scrollWheelZoom: false,
     doubleClickZoom: false
-}).setView([37.785, -122.465], 16);
+}).setView([37.7852, -122.4665], 16);
 
 // Adding Tile Layer (the map)
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -17,8 +17,10 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
 var stopIcon = L.Icon.extend({
     options: {
         iconSize: [30, 30],
+        popupAnchor: [15, -30]
     }
 });
+
 //Instantiate the Icons
 //Normal (unselected) Icons
 var OBIcon = new stopIcon({
@@ -37,14 +39,8 @@ var OBIconSelect = new stopIcon({
 });
 var IBIconSelect = new stopIcon({
     iconUrl: 'IB_select.svg',
-    iconAnchor: [15,0]
+    iconAnchor: [15, 0]
 });
-
-var routeLineOptions = {
-    color: 'yellow',
-    weight: 5,
-    lineCap: 'round'
-};
 
 //Coordinates and names of Outbound stops
 var OBCoord = [
@@ -106,7 +102,7 @@ function formSelectionEvent(element, display) {
         textHolder = textHolder + ' ' + select;
         display.text(textHolder);
         //Change corresponding icon
-        if(stopMarker){
+        if (stopMarker) {
             iconChanger(stopMarker, 'checked', direction);
             lineDrawer(select, stopMarker, 'checked', direction);
         }
@@ -117,7 +113,7 @@ function formSelectionEvent(element, display) {
         textHolder = textHolder.substr(0, selectIndex) + textHolder.substr(selectIndex + selectLength);
         display.text(textHolder);
         //Change icon
-        if(stopMarker){
+        if (stopMarker) {
             iconChanger(stopMarker, 'unchecked', direction);
             lineDrawer(select, stopMarker, 'unchecked', direction);
         }
@@ -125,53 +121,58 @@ function formSelectionEvent(element, display) {
 }
 
 //Change the marker's icon according to the stop selected
-function iconChanger(stop, status, direction){
-    if (status == 'checked'){
-        if(direction == 'OB'){
+function iconChanger(stop, status, direction) {
+    if (status == 'checked') {
+        if (direction == 'OB') {
             stop.setIcon(OBIconSelect);
-        }
-        else if(direction == 'IB'){
+        } else if (direction == 'IB') {
             stop.setIcon(IBIconSelect);
         }
-    }
-    else if (status == 'unchecked'){
-        if(direction == 'OB'){
+    } else if (status == 'unchecked') {
+        if (direction == 'OB') {
             stop.setIcon(OBIcon);
-        }
-        else if(direction == 'IB'){
+        } else if (direction == 'IB') {
             stop.setIcon(IBIcon);
         }
     }
 }
 
-function lineDrawer(select, stop, status, direction){
+function lineDrawer(select, stop, status, direction) {
     var desCoord = [stop.getLatLng().lat, stop.getLatLng().lng];
-    var oriCoord;
+    var oriCoord, colorCode;
     // Finding the coordinates of the previous stop
-    if (direction == 'OB'){
-        oriCoord = OBCoord[findIndexOfCoord(OBCoord, desCoord)-1];
+    if (direction == 'OB') {
+        oriCoord = OBCoord[findIndexOfCoord(OBCoord, desCoord) - 1];
+        colorCode = '#0080FF';
+    } else if (direction == 'IB') {
+        oriCoord = IBCoord[findIndexOfCoord(IBCoord, desCoord) - 1];
+        colorCode = '#008080';
     }
-    else if (direction == 'IB'){
-        oriCoord = IBCoord[findIndexOfCoord(IBCoord, desCoord)-1];
-    }
-    console.log([oriCoord, desCoord]);
+    // Initialize the roulte line option
+    var routeLineOptions = {
+        color: colorCode,
+        weight: 8,
+        lineCap: 'round',
+        opacity: 0.8
+    };
     // Attaching line;
     if (status == 'checked') {
         allLines[select] = L.polyline([oriCoord, desCoord], routeLineOptions).addTo(mymap);
-    }
-    else if (status == 'unchecked'){
+    } else if (status == 'unchecked') {
         mymap.removeLayer(allLines[select]);
     }
 }
 
-function findIndexOfCoord(coordArray, target){
-    for (var i=0; i<coordArray.length; i++){
-        if(coordArray[i][0] == target[0] && coordArray[i][1] == target[1]){
+//Helper function to match coordinates in nested arrays.
+function findIndexOfCoord(coordArray, target) {
+    for (var i = 0; i < coordArray.length; i++) {
+        if (coordArray[i][0] == target[0] && coordArray[i][1] == target[1]) {
             return i;
         }
     }
 }
-// 534687max
+
+
 //Day of Week Checkbox Group
 $('input:checkbox[name="day"]').change(function() {
     formSelectionEvent(this, $('#day'));
@@ -209,7 +210,7 @@ function timeFormat(time) {
     return hour + ':' + minute;
 }
 
-//IB/OB checkbox group selection
+//IB/OB checkbox whole group selection
 $('input:checkbox[name="direction"]').change(function() {
     if ($(this).prop('checked')) {
         if (this.value == 'Outbound') {
@@ -234,10 +235,16 @@ $('input:checkbox[name="direction"]').change(function() {
     }
 });
 
-//Stops RadioButton Group
+//Stops checkbox individual selection
 $('input:checkbox[name="outbound"]').change(function() {
     formSelectionEvent(this, $('#OBSelect'));
 });
 $('input:checkbox[name="inbound"]').change(function() {
     formSelectionEvent(this, $('#IBSelect'));
 });
+
+
+//Type selector
+$('input:radio[name="origin"]').change(function() {
+
+})
