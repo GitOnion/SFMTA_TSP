@@ -66,41 +66,128 @@ var IBCoord = [
 ];
 var IBStopNames = ['PresidioIB', '12thIB', '10thIB', '8thIB', '6thIB', '4thIB', 'ArguelloIB'];
 
-//Holder of all markers
-var allStops = {};
-var allLines = {};
+//Display name for each stops in popups
+var stopPopUpNames = {
+    'ArguelloOB': 'Arguello Blvd.',
+    '4thOB': '4th Ave.',
+    '6thOB': '6th Ave.',
+    '8thOB': '8th Ave.',
+    '10thOB': '10th Ave.',
+    '12thOB': '12th Ave.',
+    'PresidioOB': 'Park Presidio Blvd.',
+    'PresidioIB': 'Park Presidio Blvd.',
+    '12thIB': '12th Ave.',
+    '10thIB': '10th Ave.',
+    '8thIB': '8th Ave.',
+    '6thIB': '6th Ave.',
+    '4thIB': '4th Ave.',
+    'ArguelloIB': 'Arguello Blvd.'
+};
+
+//Distance between each stop
+var stopLen = {
+    '4thOB': 789.63,
+    '6thOB': 756.92,
+    '8thOB': 633.91,
+    '10thOB': 623.75,
+    '12thOB': 475.05,
+    'PresidioOB': 619.58,
+    'PresidioIB': 'N/A',
+    '12thIB': 485.28,
+    '10thIB': 614.66,
+    '8thIB': 623.6,
+    '6thIB': 616.69,
+    '4thIB': 631.61,
+    'ArguelloIB': 1097.69,
+    'ArguelloOB': 'N/A'
+};
+
+var stopLights = {
+    '4thOB': ['None'],
+    '6thOB': ['4th Ave.', '6th Ave.'],
+    '8thOB': ['8th Ave.'],
+    '10thOB': ['10th Ave.'],
+    '12thOB': ['None'],
+    'PresidioOB': ['12th Ave.', 'Park Presidio Blvd.'],
+    'PresidioIB': ['N/A'],
+    '12thIB': ['Park Presidio Blvd.'],
+    '10thIB': ['12th Ave.'],
+    '8thIB': ['10th Ave.'],
+    '6thIB': ['8th Ave.'],
+    '4thIB': ['6th Ave.'],
+    'ArguelloIB': ['6th Ave.', 'Arguello Blvd.'],
+    'ArguelloOB': ['N/A']
+};
+
+var allStops = {}; //Holder of all markers
+var allLines = {}; //Holder of all lines
+var daysSelected = new Set(); //Holder of day selection
+var OBstopsSelected = new Set(); // Seperate IB and OB stops into 2 holders, so
+var IBstopsSelected = new Set(); // they could show in corresponding span
 
 //Instantiate markers and assign names to stop coordinates, then store the object in OBStops
 $.each(OBCoord, function(stopNo, stopCoord) {
     var stopName = OBStopNames[stopNo];
+    var info = '<p>'+stopPopUpNames[stopName]+'<br/>Dist: '+stopLen[stopName]+'<br/>Traffic Lights:<br/>'+stopLights[stopName]+'</p>';
+    var infoPopUp = L.popup().setContent(info);
     allStops[stopName] = L.marker(stopCoord, {
         icon: OBIcon
-    }).on('click', function(e) {
-        stopSelector(e, stopName);
-    }).addTo(mymap);
+    }).on('click', function() {
+        otherSelectionEvent(stopName, $('#OBSelect'));
+    }).bindPopup(infoPopUp).addTo(mymap);
+    allStops[stopName].on('mouseover', function(e){
+        this.openPopup();
+    }).on('mouseout', function(e){
+        this.closePopup();
+    });
 });
 
 //Instantiate markers and assign names to stop coordinates, then store the object in IBStops
 $.each(IBCoord, function(stopNo, stopCoord) {
     var stopName = IBStopNames[stopNo];
+    var info = '<p>'+stopPopUpNames[stopName]+'<br/>Dist: '+stopLen[stopName]+'<br/>Traffic Lights:<br/>'+stopLights[stopName]+'</p>';
+    var infoPopUp = L.popup().setContent(info);
     allStops[stopName] = L.marker(stopCoord, {
         icon: IBIcon
-    }).on('click', function(e) {
-        stopSelector(e, stopName);
-    }).addTo(mymap);
+    }).on('click', function() {
+        otherSelectionEvent(stopName, $('#IBSelect'));
+    }).on('mouseover', function(e){
+        this.openPopup();
+    }).on('mouseout', function(e){
+        this.closePopup();
+    }).bindPopup(infoPopUp).addTo(mymap);
 });
+
+function otherSelectionEvent(stopName, display) {
+    //Set the checkbox 'checked' attribute base on its current status, then call the formSelectionEvent
+    if ($('input:checkbox[id=' + stopName + ']').prop('checked')) {
+        $('input:checkbox[id=' + stopName + ']').prop('checked', false);
+    } else {
+        $('input:checkbox[id=' + stopName + ']').prop('checked', true);
+    }
+    //Here's a strange bug fix, that the selector returns a array of things and need [0] to address the element.
+    formSelectionEvent($('input:checkbox[id=' + stopName + ']')[0], display);
+}
 
 //Add and pop selection into display when it's been selected/deselected,
 //Also change the corresponding marker's icon;
 function formSelectionEvent(element, display) {
-    var select = element.value;
+    var select = element.value; //Take DOM element as input, but take it's value for referencing other element
     var direction = select.substr(-2);
     var stopMarker = allStops[select];
-    var textHolder = display.text();
+    //Select which public variable to push the selected value in
+    var valueHolder;
+    if (element.name == 'day') {
+        valueHolder = daysSelected;
+    } else if (element.name == 'outbound') {
+        valueHolder = OBstopsSelected;
+    } else {
+        valueHolder = IBstopsSelected;
+    }
+    //Add or delete the selected value depending on the check/uncheck status
     if ($(element).prop('checked')) {
         //Add selection into display when it's been selected
-        textHolder = textHolder + ' ' + select;
-        display.text(textHolder);
+        valueHolder.add(select);
         //Change corresponding icon
         if (stopMarker) {
             iconChanger(stopMarker, 'checked', direction);
@@ -108,16 +195,16 @@ function formSelectionEvent(element, display) {
         }
     } else {
         //Pop selection from display when it's been deselected
-        var selectLength = select.length;
-        selectIndex = textHolder.indexOf(select);
-        textHolder = textHolder.substr(0, selectIndex) + textHolder.substr(selectIndex + selectLength);
-        display.text(textHolder);
+        valueHolder.delete(select);
         //Change icon
         if (stopMarker) {
             iconChanger(stopMarker, 'unchecked', direction);
             lineDrawer(select, stopMarker, 'unchecked', direction);
         }
     }
+    // Cast into array, in order to use array's join method
+    textHolder = Array.from(valueHolder);
+    display.text(textHolder.join(', '));
 }
 
 //Change the marker's icon according to the stop selected
@@ -157,6 +244,10 @@ function lineDrawer(select, stop, status, direction) {
     };
     // Attaching line;
     if (status == 'checked') {
+        //Check if line already exists before adding a line (otherwise line will duplicate)
+        if (allLines[select]) {
+            mymap.removeLayer(allLines[select]);
+        }
         allLines[select] = L.polyline([oriCoord, desCoord], routeLineOptions).addTo(mymap);
     } else if (status == 'unchecked') {
         mymap.removeLayer(allLines[select]);
@@ -210,6 +301,14 @@ function timeFormat(time) {
     return hour + ':' + minute;
 }
 
+//Stops checkbox individual selection
+$('input:checkbox[name="outbound"]').change(function() {
+    formSelectionEvent(this, $('#OBSelect'));
+});
+$('input:checkbox[name="inbound"]').change(function() {
+    formSelectionEvent(this, $('#IBSelect'));
+});
+
 //IB/OB checkbox whole group selection
 $('input:checkbox[name="direction"]').change(function() {
     if ($(this).prop('checked')) {
@@ -235,16 +334,26 @@ $('input:checkbox[name="direction"]').change(function() {
     }
 });
 
-//Stops checkbox individual selection
-$('input:checkbox[name="outbound"]').change(function() {
-    formSelectionEvent(this, $('#OBSelect'));
-});
-$('input:checkbox[name="inbound"]').change(function() {
-    formSelectionEvent(this, $('#IBSelect'));
-});
-
-
 //Type selector
-$('input:radio[name="origin"]').change(function() {
+$('input:checkbox[name="type"]').change(function() {
+    console.log(this.value);
+    if ($(this).prop('checked')) {
+        $('.' + this.value).prop('checked', true).each(function() {
+            formSelectionEvent(this, mixedDirectionChooser(this));
+        });
+    } else if ($(this).prop('checked') === false) {
+        $('.' + this.value).prop('checked', false).each(function() {
+            formSelectionEvent(this, mixedDirectionChooser(this));
+        });
+    }
+});
 
-})
+//Getting the right direction span for mixed selection - helper function
+function mixedDirectionChooser(element) {
+    var direction = element.value.substr(-2);
+    if (direction == 'OB') {
+        return $('#OBSelect');
+    } else if (direction == 'IB') {
+        return $('#IBSelect');
+    }
+}

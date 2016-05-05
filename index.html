@@ -61,11 +61,12 @@
                 <div class="filter-box">
                     <h4 class="filter-box-title">Time Selectors</h4>
                     <br />
-                    <span class="filter-name">Day of Week:</span>
+                    <span class="filter-name">Day of Week:</span><span id="day"></span>
+
                     <div class="options">
                         <td>
                             <label for="Monday">Mon.</label>
-                            <input type="checkbox" name="day" class="radioOptions" id="Monday" value="Monday" checked="checked" />
+                            <input type="checkbox" name="day" class="radioOptions" id="Monday" value="Monday" />
                         </td>
                         <td>
                             <label for="Tuesday">Tue.</label>
@@ -93,7 +94,7 @@
                         </td>
                     </div>
                     <hr />
-                    <span class="filter-name">Time of Day: </span>
+                    <span class="filter-name">Time of Day: </span><span id="time">07:00 - 09:00</span>
                     <div style="min-height:8px"></div>
                     <div class="options">
                         <div id="slider-range"></div>
@@ -107,72 +108,72 @@
                     <div>
                         <label for="Outbound">Outbound</label>
                         <input type="checkbox" name="direction" class="direction" id="Outbound" value="Outbound" />
-                        <span class="filter-name"></span>
+                        <span class="filter-name"></span><span id="OBSelect"></span>
                     </div>
                     <div class="options options-OB">
                         <td>
                             <label for="PresidioOB">Presidio</label>
-                            <input type="checkbox" name="outbound" class="radioOptions" id="PresidioOB" value="PresidioOB" />
+                            <input type="checkbox" name="outbound" class="nearToFar" id="PresidioOB" value="PresidioOB" />
                         </td>
                         <td>
                             <label for="12thOB">12th</label>
-                            <input type="checkbox" name="outbound" class="radioOptions" id="12thOB" value="12thOB" />
+                            <input type="checkbox" name="outbound" class="farToNear" id="12thOB" value="12thOB" />
                         </td>
                         <td>
                             <label for="10thOB">10th</label>
-                            <input type="checkbox" name="outbound" class="radioOptions" id="10thOB" value="10thOB" />
+                            <input type="checkbox" name="outbound" class="farToFar" id="10thOB" value="10thOB" />
                         </td>
                         <td>
                             <label for="8thOB">8th</label>
-                            <input type="checkbox" name="outbound" class="radioOptions" id="8thOB" value="8thOB" />
+                            <input type="checkbox" name="outbound" class="farToFar" id="8thOB" value="8thOB" />
                         </td>
                         <td>
                             <label for="6thOB">6th</label>
-                            <input type="checkbox" name="outbound" class="radioOptions" id="6thOB" value="6thOB" />
+                            <input type="checkbox" name="outbound" class="nearToFar" id="6thOB" value="6thOB" />
                         </td>
                         <td>
                             <label for="4thOB">4th</label>
-                            <input type="checkbox" name="outbound" class="radioOptions" id="4thOB" value="4thOB" />
+                            <input type="checkbox" name="outbound" class="farToNear" id="4thOB" value="4thOB" />
                         </td>
                         <!-- <td>
                             <label for="ArguelloOB">Arguello</label>
-                            <input type="checkbox" name="outbound" class="radioOptions" id="ArguelloOB" value="ArguelloOB" />
+                            <input type="checkbox" name="outbound" class="originFar destinFar" id="ArguelloOB" value="ArguelloOB" />
                         </td> -->
                     </div>
                     <hr />
                     <div>
                         <label for="Inbound">Inbound</label>
                         <input type="checkbox" name="direction" class="direction" id="Inbound" value="Inbound" />
-                        <span class="filter-name"></span>
+                        <span class="filter-name"></span><span id="IBSelect"></span>
                     </div>
                     <div class="options options-IB">
                         <!-- <td>
                             <label for="PresidioIB">Presidio</label>
-                            <input type="checkbox" name="inbound" class="radioOptions" id="PresidioIB" value="PresidioIB" />
+                            <input type="checkbox" name="inbound" class="originNear destinNear" id="PresidioIB" value="PresidioIB" />
                         </td> -->
                         <td>
                             <label for="12thIB">12th</label>
-                            <input type="checkbox" name="inbound" class="radioOptions" id="12thIB" value="12thIB" />
+                            <input type="checkbox" name="inbound" class="nearToNear" id="12thIB" value="12thIB" />
                         </td>
                         <td>
                             <label for="10thIB">10th</label>
-                            <input type="checkbox" name="inbound" class="radioOptions" id="10thIB" value="10thIB" />
+                            <input type="checkbox" name="inbound" class="nearToNear" id="10thIB" value="10thIB" />
                         </td>
                         <td>
                             <label for="8thIB">8th</label>
-                            <input type="checkbox" name="inbound" class="radioOptions" id="8thIB" value="8thIB" />
+                            <input type="checkbox" name="inbound" class="nearToNear" id="8thIB" value="8thIB" />
                         </td>
                         <td>
                             <label for="6thIB">6th</label>
-                            <input type="checkbox" name="inbound" class="radioOptions" id="6thIB" value="6thIB" />
+                            <input type="checkbox" name="inbound" class="nearToNear" id="6thIB" value="6thIB" />
                         </td>
                         <td>
                             <label for="4thIB">4th</label>
-                            <input type="checkbox" name="inbound" class="radioOptions" id="4thIB" value="4thIB" />
+                            <input type="checkbox" name="inbound" class="nearToNear" id="4thIB" value="4thIB" />
                         </td>
                         <td>
                             <label for="ArguelloIB">Arguello</label>
-                            <input type="checkbox" name="inbound" class="radioOptions" id="ArguelloIB" value="ArguelloIB" />
+                            <input type="checkbox" name="inbound" class="nearToFar" id="ArguelloIB" value="ArguelloIB" />
                         </td>
                     </div>
                 </div>
@@ -181,39 +182,38 @@
                 <div class="filter-box">
                     <h4 class="filter-box-title">Stop by Type</h4>
                     <br />
-                    <span class="filter-name">Origin stop: </span>
                     <div class="options">
-                        <label for="originNear">Near</label>
-                        <input type="radio" name="origin" class="origin" id="originNear" value="originNear" />
-                        <label for="originFar">Far</label>
-                        <input type="radio" name="origin" class="origin" id="originFar" value="originFar" />
-                    </div>
-                    <hr />
-                    <span class="filter-name">Destination stop: </span>
-                    <div class="options">
-                        <label for="destinNear">Near</label>
-                        <input type="radio" name="destination" class="destination" id="destinNear" value="destinNear" />
-                        <label for="destinFar">Far</label>
-                        <input type="radio" name="destination" class="destination" id="destinFar" value="destinFar" />
+                        <p>
+                            <label class="filter-type" for="nearToNear">Near to Near</label>
+                            <input type="checkbox" name="type" class="type" id="nearToNear" value="nearToNear" />
+                        </p>
+                        <p>
+                            <label class="filter-type" for="nearToFar">Near to Far</label>
+                            <input type="checkbox" name="type" class="type" id="nearToFar" value="nearToFar" />
+                        </p>
+                        <p>
+                            <label class="filter-type" for="farToFar">Far to Far</label>
+                            <input type="checkbox" name="type" class="type" id="farToFar" value="farToFar" />
+                        </p>
+                        <p>
+                            <label class="filter-type" for="farToNear">Far to Near</label>
+                            <input type="checkbox" name="type" class="type" id="farToNear" value="farToNear" />
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-md-12">
                 <div class="filter-box">
-                    <h4 class="filter-box-title">Filters</h4>
-                    <span id="day">Monday</span>
-                    <span id="time">07:00 - 09:00</span>
-                    <span id="OBSelect"></span>
-                    <span id="IBSelect"></span>
+                    <h4 class="filter-box-title">Filter Values</h4>
                 </div>
             </div>
 
-        </div>
+        </div> -->
     </div>
 
-    <div class='tableauPlaceholder container' style='width: 982px; height: 742px;'>
+    <!-- <div class='tableauPlaceholder container' style='width: 982px; height: 742px;'>
         <noscript>
             <a href='#'><img alt='Sheet 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;TS&#47;TSP_embed&#47;Sheet1&#47;1_rss.png' style='border: none' /></a>
         </noscript>
@@ -233,6 +233,25 @@
         </object>
     </div>
 
+    <div class='tableauPlaceholder' style='width: 982px; height: 745px;'>
+        <noscript>
+            <a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;TS&#47;TSP_embed&#47;Sheet2&#47;1_rss.png' style='border: none' /></a>
+        </noscript>
+        <object class='tableauViz' width='982' height='745' style='display:none;'>
+            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+            <param name='site_root' value='' />
+            <param name='name' value='TSP_embed&#47;Sheet2' />
+            <param name='tabs' value='yes' />
+            <param name='toolbar' value='yes' />
+            <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;TS&#47;TSP_embed&#47;Sheet2&#47;1.png' />
+            <param name='animate_transition' value='yes' />
+            <param name='display_static_image' value='yes' />
+            <param name='display_spinner' value='yes' />
+            <param name='display_overlay' value='yes' />
+            <param name='display_count' value='yes' />
+            <param name='showTabs' value='y' />
+        </object>
+    </div> -->
 
 
     <!-- /container -->

@@ -4,8 +4,6 @@ body {
 }
 label {
     margin-bottom: 0px;
-    margin-left: auto;
-    margin-right: auto;
 }
 #mapid {
     height: 240px;
@@ -27,7 +25,11 @@ label {
 }
 .filter-name {
     font-weight: bold;
-    margin-right: 50px;
+    margin-right: 20px;
+}
+
+.filter-type-name {
+    font-weight: bold;
 }
 .options {
     margin-top: 10px;
@@ -40,6 +42,11 @@ label {
     display: table-cell;
     text-align: center;
 }
+
+.options .filter-type{
+    display: inline;
+}
+
 .selectorDisp {
     position: relative;
     right: 0;
