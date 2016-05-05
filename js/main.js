@@ -169,6 +169,7 @@ function otherSelectionEvent(stopName, display) {
     formSelectionEvent($('input:checkbox[id=' + stopName + ']')[0], display);
 }
 
+var sheet1, sheet2;
 //Add and pop selection into display when it's been selected/deselected,
 //Also change the corresponding marker's icon;
 function formSelectionEvent(element, display) {
@@ -205,6 +206,14 @@ function formSelectionEvent(element, display) {
     // Cast into array, in order to use array's join method
     textHolder = Array.from(valueHolder);
     display.text(textHolder.join(', '));
+    console.log('YOOOOOOO');
+    sheet1 = viz1.getWorkbook().getActiveSheet();
+    sheet1.applyFilterAsync("BusName", textHolder, "REPLACE");
+    console.log(textHolder);
+    console.log('YOOOOOOO');
+    sheet2 = viz2.getWorkbook().getActiveSheet();
+    sheet2.applyFilterAsync("Bus Name", textHolder, "REPLACE");
+    console.log('YOOOOOOO');
 }
 
 //Change the marker's icon according to the stop selected
@@ -357,3 +366,28 @@ function mixedDirectionChooser(element) {
         return $('#IBSelect');
     }
 }
+
+// Viz 1 JS script
+var vizDiv1 = document.getElementById('viz1');
+var vizURL1 = "https://public.tableau.com/views/TSP_embed/Sheet1?:embed=y&:display_count=yes";
+var options1 = {
+    hideTabs: true,
+    hideToolbar: false,
+    onFirstInteractive: function () {
+        console.log("Run this code when the viz has finished loading.");
+        }
+    };
+var viz1 = new tableau.Viz(vizDiv1, vizURL1, options1);
+
+var vizDiv2 = document.getElementById('viz2');
+var vizURL2 = "https://public.tableau.com/views/TSP_embed/Sheet2?:embed=y&:display_count=yes";
+var options2 = {
+    hideTabs: true,
+    hideToolbar: false,
+    onFirstInteractive: function () {
+        console.log("Run this code when the viz has finished loading.");
+        }
+    };
+var viz2 = new tableau.Viz(vizDiv2, vizURL2, options2);
+
+
