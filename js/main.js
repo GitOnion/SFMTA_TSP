@@ -219,10 +219,31 @@ function formSelectionEvent(element, display) {
     }
     // Cast into array, in order to use array's join method
     textHolder = Array.from(valueHolder);
+    dayHolder = Array.from(daysSelected);
+    console.log(dayHolder);
     display.text(textHolder.join(', '));
-    chart1.applyFilterAsync('Bus Name', 'textHolder', 'REPLACE');
-    chart2.applyFilterAsync('Bus Name', 'textHolder', 'REPLACE');
-
+    chart1 = viz1.getWorkbook().getActiveSheet().getWorksheets()[0];
+    chart2 = viz2.getWorkbook().getActiveSheet().getWorksheets()[0];
+    if(chart1.getSheetType() === 'worksheet') {
+		chart1.applyFilterAsync('Bus Name', textHolder, 'REPLACE');
+		chart1.applyFilterAsync('Weekday of Datetime', dayHolder, 'ADD');
+	} else {
+		worksheetArray = chart1.getWorksheets();
+		for(var i = 0; i < worksheetArray.length; i++) {
+			worksheetArray[i].applyFilterAsync('Bus Name', textHolder, 'REPLACE');
+            worksheetArray[i].applyFilterAsync('Weekday of Datetime', dayHolder, 'ADD');
+    		}
+	}
+    if(chart2.getSheetType() === 'worksheet') {
+		chart2.applyFilterAsync('Bus Name', textHolder, 'REPLACE');
+        chart2.applyFilterAsync('Weekday of Datetime', dayHolder, 'ADD');
+	} else {
+		worksheetArray = chart2.getWorksheets();
+		for(var i = 0; i < worksheetArray.length; i++) {
+			worksheetArray[i].applyFilterAsync('Bus Name', textHolder, 'REPLACE');
+            worksheetArray[i].applyFilterAsync('Weekday of Datetime', dayHolder, 'ADD');
+		}
+	}
 }
 
 //Change the marker's icon according to the stop selected
@@ -383,7 +404,7 @@ var options1 = {
     hideTabs: true,
     hideToolbar: false,
     height: '460px',
-    width: '563px',  
+    width: '563px',
     onFirstInteractive: function () {
         console.log("Run this code when the viz has finished loading.");
         }
@@ -396,13 +417,9 @@ var options2 = {
     hideTabs: true,
     hideToolbar: false,
     height: '460px',
-    width: '563px',  
+    width: '563px',
     onFirstInteractive: function () {
         console.log("Run this code when the viz has finished loading.");
         }
     };
 var viz2 = new tableau.Viz(vizDiv2, vizURL2, options2);
-var chart1 = viz1.getWorkbook().getActiveSheet();
-var chart2 = viz2.getWorkbook().getActiveSheet();
-
-
