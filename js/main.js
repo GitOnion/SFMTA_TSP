@@ -132,11 +132,11 @@ var translation = {
     '6th IB': '6th IB',
     '4th IB': '4th IB',
     'Arguello IB': 'Arguello IB'
-}
+};
 
 var allStops = {}; //Holder of all markers
 var allLines = {}; //Holder of all lines
-var daysSelected = new Set(); //Holder of day selection
+var daysSelected = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']; //Holder of day selection
 var OBstopsSelected = new Set(); // Seperate IB and OB stops into 2 holders, so
 var IBstopsSelected = new Set(); // they could show in corresponding span
 
@@ -192,9 +192,7 @@ function formSelectionEvent(element, display) {
     var stopMarker = allStops[select];
     //Select which public variable to push the selected value in
     var valueHolder;
-    if (element.name == 'day') {
-        valueHolder = daysSelected;
-    } else if (element.name == 'outbound') {
+    if (element.name == 'outbound') {
         valueHolder = OBstopsSelected;
     } else {
         valueHolder = IBstopsSelected;
@@ -219,31 +217,18 @@ function formSelectionEvent(element, display) {
     }
     // Cast into array, in order to use array's join method
     textHolder = Array.from(valueHolder);
-    dayHolder = Array.from(daysSelected);
-    console.log(dayHolder);
+    console.log(textHolder);
     display.text(textHolder.join(', '));
-    chart1 = viz1.getWorkbook().getActiveSheet().getWorksheets()[0];
-    chart2 = viz2.getWorkbook().getActiveSheet().getWorksheets()[0];
-    if(chart1.getSheetType() === 'worksheet') {
-		chart1.applyFilterAsync('Bus Name', textHolder, 'REPLACE');
-		chart1.applyFilterAsync('Weekday of Datetime', dayHolder, 'ADD');
-	} else {
+    chart1 = viz1.getWorkbook().getActiveSheet();
+    chart2 = viz2.getWorkbook().getActiveSheet();
 		worksheetArray = chart1.getWorksheets();
 		for(var i = 0; i < worksheetArray.length; i++) {
 			worksheetArray[i].applyFilterAsync('Bus Name', textHolder, 'REPLACE');
-            worksheetArray[i].applyFilterAsync('Weekday of Datetime', dayHolder, 'ADD');
     		}
-	}
-    if(chart2.getSheetType() === 'worksheet') {
-		chart2.applyFilterAsync('Bus Name', textHolder, 'REPLACE');
-        chart2.applyFilterAsync('Weekday of Datetime', dayHolder, 'ADD');
-	} else {
 		worksheetArray = chart2.getWorksheets();
 		for(var i = 0; i < worksheetArray.length; i++) {
 			worksheetArray[i].applyFilterAsync('Bus Name', textHolder, 'REPLACE');
-            worksheetArray[i].applyFilterAsync('Weekday of Datetime', dayHolder, 'ADD');
 		}
-	}
 }
 
 //Change the marker's icon according to the stop selected
@@ -305,7 +290,40 @@ function findIndexOfCoord(coordArray, target) {
 
 //Day of Week Checkbox Group
 $('input:checkbox[name="day"]').change(function() {
-    formSelectionEvent(this, $('#day'));
+    // formSelectionEvent(this, $('#day'));
+    var updateType;
+    if($(this).prop('checked')){
+        daysSelected.push(this.value);
+        updateType = "ADD";
+    }else {
+        var index = daysSelected.indexOf(this.value);
+        daysSelected.splice(index, 1);
+        updateType = "REMOVE";
+    }
+    dayHolder = Array.from(daysSelected);
+    $('#day').text(daysSelected.join(', '));
+    console.log(dayHolder);
+    chart1 = viz1.getWorkbook().getActiveSheet();
+    chart2 = viz2.getWorkbook().getActiveSheet();
+    if(chart1.getSheetType() === 'worksheet') {
+        chart1.applyFilterAsync('WEEKDAY(Datetime)', dayHolder, "REPLACE");
+    } else {
+        worksheetArray = chart1.getWorksheets();
+        for(var i = 0; i < worksheetArray.length; i++) {
+            worksheetArray[i].applyFilterAsync('WEEKDAY(Datetime)', dayHolder, "REPLACE");
+            }
+        console.log("yooo");
+    }
+    if(chart2.getSheetType() === 'worksheet') {
+        chart2.applyFilterAsync('WEEKDAY(Datetime)', dayHolder, "REPLACE");
+    } else {
+        console.log('yo');
+        worksheetArray = chart2.getWorksheets();
+        for(var i = 0; i < worksheetArray.length; i++) {
+            worksheetArray[i].applyFilterAsync('WEEKDAY(Datetime)', dayHolder, "REPLACE");
+        }
+    }
+
 });
 
 //Time of Day Slider
@@ -375,7 +393,6 @@ $('input:checkbox[name="direction"]').change(function() {
 
 //Type selector
 $('input:checkbox[name="type"]').change(function() {
-    console.log(this.value);
     if ($(this).prop('checked')) {
         $('.' + this.value).prop('checked', true).each(function() {
             formSelectionEvent(this, mixedDirectionChooser(this));
@@ -405,9 +422,6 @@ var options1 = {
     hideToolbar: false,
     height: '460px',
     width: '563px',
-    onFirstInteractive: function () {
-        console.log("Run this code when the viz has finished loading.");
-        }
     };
 var viz1 = new tableau.Viz(vizDiv1, vizURL1, options1);
 
@@ -418,8 +432,5 @@ var options2 = {
     hideToolbar: false,
     height: '460px',
     width: '563px',
-    onFirstInteractive: function () {
-        console.log("Run this code when the viz has finished loading.");
-        }
     };
 var viz2 = new tableau.Viz(vizDiv2, vizURL2, options2);
