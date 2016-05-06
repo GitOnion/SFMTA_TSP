@@ -166,6 +166,7 @@ $.each(IBCoord, function(stopNo, stopCoord) {
         icon: IBIcon
     }).on('click', function() {
         otherSelectionEvent(stopName, $('#IBSelect'));
+        console.log("YO");
     }).on('mouseover', function(e){
         this.openPopup();
     }).on('mouseout', function(e){
@@ -175,6 +176,8 @@ $.each(IBCoord, function(stopNo, stopCoord) {
 
 function otherSelectionEvent(stopName, display) {
     //Set the checkbox 'checked' attribute base on its current status, then call the formSelectionEvent
+    stopName = '"' + stopName + '"';
+    console.log(stopName);
     if ($('input:checkbox[id=' + stopName + ']').prop('checked')) {
         $('input:checkbox[id=' + stopName + ']').prop('checked', false);
     } else {
