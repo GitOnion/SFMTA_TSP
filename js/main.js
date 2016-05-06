@@ -13,33 +13,42 @@ L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
     accessToken: 'pk.eyJ1Ijoic3VwZXJvbmlvbiIsImEiOiJjaW41anY0MWMwY3FqdXBra2Nudm5keTdiIn0.QU9itsq1crBsfAWmmGFbBg'
 }).addTo(mymap);
 
-//Define the icon class
+//Define the icon clas
 var stopIcon = L.Icon.extend({
     options: {
         iconSize: [30, 30],
-        popupAnchor: [15, -30]
     }
+});
+
+var lightIcon = L.icon({
+    iconUrl: 'light.svg',
+    iconSize: [15,25],
+    iconAnchor: [7,12]
 });
 
 //Instantiate the Icons
 //Normal (unselected) Icons
 var OBIcon = new stopIcon({
     iconUrl: 'OB.svg',
-    iconAnchor: [15, 30]
+    iconAnchor: [15, 30],
+    popupAnchor: [0, -30]
 });
 var IBIcon = new stopIcon({
     iconUrl: 'IB.svg',
-    iconAnchor: [15, 0]
+    iconAnchor: [15, 0],
+    popupAnchor: [0, 0]
 });
 
 //Selected Icons
 var OBIconSelect = new stopIcon({
     iconUrl: 'OB_select.svg',
-    iconAnchor: [15, 30]
+    iconAnchor: [15, 30],
+    popupAnchor: [0, -30]
 });
 var IBIconSelect = new stopIcon({
     iconUrl: 'IB_select.svg',
-    iconAnchor: [15, 0]
+    iconAnchor: [15, 0],
+    popupAnchor: [0, 0]
 });
 
 //Coordinates and names of Outbound stops
@@ -66,6 +75,15 @@ var IBCoord = [
 ];
 var IBStopNames = ['Park Presidio IB', '12th IB', '10th IB', '8th IB', '6th IB', '4th IB', 'Arguello IB'];
 
+var lightCoord = [
+    [37.78569, -122.45918],
+    [37.78528, -122.46244],
+    [37.78500, -122.46457],
+    [37.78474, -122.46671],
+    [37.78464, -122.46884],
+    [37.78452, -122.47099],
+    [37.78445, -122.47259]
+];
 //Display name for each stops in popups
 var stopPopUpNames = {
     'Arguello OB': 'Arguello Blvd.',
@@ -149,12 +167,11 @@ $.each(OBCoord, function(stopNo, stopCoord) {
         icon: OBIcon
     }).on('click', function() {
         otherSelectionEvent(stopName, $('#OBSelect'));
-    }).bindPopup(infoPopUp).addTo(mymap);
-    allStops[stopName].on('mouseover', function(e){
+    }).on('mouseover', function(e){
         this.openPopup();
     }).on('mouseout', function(e){
         this.closePopup();
-    });
+    }).bindPopup(infoPopUp).addTo(mymap);
 });
 
 //Instantiate markers and assign names to stop coordinates, then store the object in IBStops
@@ -166,12 +183,15 @@ $.each(IBCoord, function(stopNo, stopCoord) {
         icon: IBIcon
     }).on('click', function() {
         otherSelectionEvent(stopName, $('#IBSelect'));
-        console.log("YO");
     }).on('mouseover', function(e){
         this.openPopup();
     }).on('mouseout', function(e){
         this.closePopup();
     }).bindPopup(infoPopUp).addTo(mymap);
+});
+
+$.each(lightCoord, function(no, coord){
+    L.marker(coord, {icon:lightIcon}).addTo(mymap);
 });
 
 function otherSelectionEvent(stopName, display) {
