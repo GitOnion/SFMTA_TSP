@@ -183,7 +183,6 @@ $.each(IBCoord, function(stopNo, stopCoord) {
         icon: IBIcon
     }).on('click', function() {
         otherSelectionEvent(stopName, $('#IBSelect'));
-        console.log("YO");
     }).on('mouseover', function(e){
         this.openPopup();
     }).on('mouseout', function(e){
@@ -198,7 +197,6 @@ $.each(lightCoord, function(no, coord){
 function otherSelectionEvent(stopName, display) {
     //Set the checkbox 'checked' attribute base on its current status, then call the formSelectionEvent
     stopName = '"' + stopName + '"';
-    console.log(stopName);
     if ($('input:checkbox[id=' + stopName + ']').prop('checked')) {
         $('input:checkbox[id=' + stopName + ']').prop('checked', false);
     } else {
@@ -241,7 +239,6 @@ function formSelectionEvent(element, display) {
     }
     // Cast into array, in order to use array's join method
     textHolder = Array.from(valueHolder);
-    console.log(textHolder);
     display.text(textHolder.join(', '));
     chart1 = viz1.getWorkbook().getActiveSheet();
     chart2 = viz2.getWorkbook().getActiveSheet();
@@ -326,7 +323,6 @@ $('input:checkbox[name="day"]').change(function() {
     }
     dayHolder = Array.from(daysSelected);
     $('#day').text(daysSelected.join(', '));
-    console.log(dayHolder);
     chart1 = viz1.getWorkbook().getActiveSheet();
     chart2 = viz2.getWorkbook().getActiveSheet();
     if(chart1.getSheetType() === 'worksheet') {
@@ -336,12 +332,10 @@ $('input:checkbox[name="day"]').change(function() {
         for(var i = 0; i < worksheetArray.length; i++) {
             worksheetArray[i].applyFilterAsync('WEEKDAY(Datetime)', dayHolder, "REPLACE");
             }
-        console.log("yooo");
     }
     if(chart2.getSheetType() === 'worksheet') {
         chart2.applyFilterAsync('WEEKDAY(Datetime)', dayHolder, "REPLACE");
     } else {
-        console.log('yo');
         worksheetArray = chart2.getWorksheets();
         for(var i = 0; i < worksheetArray.length; i++) {
             worksheetArray[i].applyFilterAsync('WEEKDAY(Datetime)', dayHolder, "REPLACE");
@@ -365,7 +359,6 @@ function slideTime(event, ui) {
     //read the slider's values
     var time0 = ui.values[0];
     var time1 = ui.values[1];
-    console.log(time0, time1);
     $('#time').text(timeFormat(time0) + ' - ' + timeFormat(time1));
 }
 
