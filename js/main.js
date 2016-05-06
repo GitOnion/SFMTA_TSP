@@ -183,6 +183,7 @@ $.each(IBCoord, function(stopNo, stopCoord) {
         icon: IBIcon
     }).on('click', function() {
         otherSelectionEvent(stopName, $('#IBSelect'));
+        console.log("YO");
     }).on('mouseover', function(e){
         this.openPopup();
     }).on('mouseout', function(e){
