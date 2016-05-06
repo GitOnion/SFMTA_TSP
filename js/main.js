@@ -52,7 +52,7 @@ var OBCoord = [
     [37.78462, -122.47080],
     [37.78453, -122.47297]
 ];
-var OBStopNames = ['ArguelloOB', '4thOB', '6thOB', '8thOB', '10thOB', '12thOB', 'PresidioOB'];
+var OBStopNames = ['Arguello OB', '4th OB', '6th OB', '8th OB', '10th OB', '12th OB', 'Park Presidio OB'];
 
 //Coordinates and names of Inbound stops
 var IBCoord = [
@@ -64,60 +64,75 @@ var IBCoord = [
     [37.78517, -122.46262],
     [37.78564, -122.45898]
 ];
-var IBStopNames = ['PresidioIB', '12thIB', '10thIB', '8thIB', '6thIB', '4thIB', 'ArguelloIB'];
+var IBStopNames = ['Park Presidio IB', '12th IB', '10th IB', '8th IB', '6th IB', '4th IB', 'Arguello IB'];
 
 //Display name for each stops in popups
 var stopPopUpNames = {
-    'ArguelloOB': 'Arguello Blvd.',
-    '4thOB': '4th Ave.',
-    '6thOB': '6th Ave.',
-    '8thOB': '8th Ave.',
-    '10thOB': '10th Ave.',
-    '12thOB': '12th Ave.',
-    'PresidioOB': 'Park Presidio Blvd.',
-    'PresidioIB': 'Park Presidio Blvd.',
-    '12thIB': '12th Ave.',
-    '10thIB': '10th Ave.',
-    '8thIB': '8th Ave.',
-    '6thIB': '6th Ave.',
-    '4thIB': '4th Ave.',
-    'ArguelloIB': 'Arguello Blvd.'
+    'Arguello OB': 'Arguello Blvd.',
+    '4th OB': '4th Ave.',
+    '6th OB': '6th Ave.',
+    '8th OB': '8th Ave.',
+    '10th OB': '10th Ave.',
+    '12th OB': '12th Ave.',
+    'Park Presidio OB': 'Park Presidio Blvd.',
+    'Park Presidio IB': 'Park Presidio Blvd.',
+    '12th IB': '12th Ave.',
+    '10th IB': '10th Ave.',
+    '8th IB': '8th Ave.',
+    '6th IB': '6th Ave.',
+    '4th IB': '4th Ave.',
+    'Arguello IB': 'Arguello Blvd.'
 };
 
 //Distance between each stop
 var stopLen = {
-    '4thOB': 789.63,
-    '6thOB': 756.92,
-    '8thOB': 633.91,
-    '10thOB': 623.75,
-    '12thOB': 475.05,
-    'PresidioOB': 619.58,
-    'PresidioIB': 'N/A',
-    '12thIB': 485.28,
-    '10thIB': 614.66,
-    '8thIB': 623.6,
-    '6thIB': 616.69,
-    '4thIB': 631.61,
-    'ArguelloIB': 1097.69,
-    'ArguelloOB': 'N/A'
+    '4th OB': 789.63,
+    '6th OB': 756.92,
+    '8th OB': 633.91,
+    '10th OB': 623.75,
+    '12th OB': 475.05,
+    'Park Presidio OB': 619.58,
+    'Park Presidio IB': 'N/A',
+    '12th IB': 485.28,
+    '10th IB': 614.66,
+    '8th IB': 623.6,
+    '6th IB': 616.69,
+    '4th IB': 631.61,
+    'Arguello IB': 1097.69,
+    'Arguello OB': 'N/A'
 };
 
 var stopLights = {
-    '4thOB': ['None'],
-    '6thOB': ['4th Ave.', '6th Ave.'],
-    '8thOB': ['8th Ave.'],
-    '10thOB': ['10th Ave.'],
-    '12thOB': ['None'],
-    'PresidioOB': ['12th Ave.', 'Park Presidio Blvd.'],
-    'PresidioIB': ['N/A'],
-    '12thIB': ['Park Presidio Blvd.'],
-    '10thIB': ['12th Ave.'],
-    '8thIB': ['10th Ave.'],
-    '6thIB': ['8th Ave.'],
-    '4thIB': ['6th Ave.'],
-    'ArguelloIB': ['6th Ave.', 'Arguello Blvd.'],
-    'ArguelloOB': ['N/A']
+    '4th OB': ['None'],
+    '6th OB': ['4th Ave.', '6th Ave.'],
+    '8th OB': ['8th Ave.'],
+    '10th OB': ['10th Ave.'],
+    '12th OB': ['None'],
+    'Park Presidio OB': ['12th Ave.', 'Park Presidio Blvd.'],
+    'Park Presidio IB': ['N/A'],
+    '12th IB': ['Park Presidio Blvd.'],
+    '10th IB': ['12th Ave.'],
+    '8th IB': ['10th Ave.'],
+    '6th IB': ['8th Ave.'],
+    '4th IB': ['6th Ave.'],
+    'Arguello IB': ['6th Ave.', 'Arguello Blvd.'],
+    'Arguello OB': ['N/A']
 };
+
+var translation = {
+    '4th OB': '4th OB',
+    '6th OB': '6th OB',
+    '8th OB': '8th OB',
+    '10th OB': '10th OB',
+    '12th OB': '12th OB',
+    'Park Presidio OB': 'Park Presidio OB',
+    '12th IB': '12th IB',
+    '10th IB': '10th IB',
+    '8th IB': '8th IB',
+    '6th IB': '6th IB',
+    '4th IB': '4th IB',
+    'Arguello IB': 'Arguello IB'
+}
 
 var allStops = {}; //Holder of all markers
 var allLines = {}; //Holder of all lines
@@ -169,7 +184,6 @@ function otherSelectionEvent(stopName, display) {
     formSelectionEvent($('input:checkbox[id=' + stopName + ']')[0], display);
 }
 
-var sheet1, sheet2;
 //Add and pop selection into display when it's been selected/deselected,
 //Also change the corresponding marker's icon;
 function formSelectionEvent(element, display) {
@@ -206,14 +220,9 @@ function formSelectionEvent(element, display) {
     // Cast into array, in order to use array's join method
     textHolder = Array.from(valueHolder);
     display.text(textHolder.join(', '));
-    console.log('YOOOOOOO');
-    sheet1 = viz1.getWorkbook().getActiveSheet();
-    sheet1.applyFilterAsync("BusName", textHolder, "REPLACE");
-    console.log(textHolder);
-    console.log('YOOOOOOO');
-    sheet2 = viz2.getWorkbook().getActiveSheet();
-    sheet2.applyFilterAsync("Bus Name", textHolder, "REPLACE");
-    console.log('YOOOOOOO');
+    chart1.applyFilterAsync('Bus Name', 'textHolder', 'REPLACE');
+    chart2.applyFilterAsync('Bus Name', 'textHolder', 'REPLACE');
+
 }
 
 //Change the marker's icon according to the stop selected
@@ -369,10 +378,12 @@ function mixedDirectionChooser(element) {
 
 // Viz 1 JS script
 var vizDiv1 = document.getElementById('viz1');
-var vizURL1 = "https://public.tableau.com/views/TSP_embed/Sheet1?:embed=y&:display_count=yes";
+var vizURL1 = "https://public.tableau.com/views/TSP_embed/Dashboard1";
 var options1 = {
     hideTabs: true,
     hideToolbar: false,
+    height: '460px',
+    width: '563px',  
     onFirstInteractive: function () {
         console.log("Run this code when the viz has finished loading.");
         }
@@ -380,14 +391,18 @@ var options1 = {
 var viz1 = new tableau.Viz(vizDiv1, vizURL1, options1);
 
 var vizDiv2 = document.getElementById('viz2');
-var vizURL2 = "https://public.tableau.com/views/TSP_embed/Sheet2?:embed=y&:display_count=yes";
+var vizURL2 = "https://public.tableau.com/views/TSP_embed2/Dashboard1";
 var options2 = {
     hideTabs: true,
     hideToolbar: false,
+    height: '460px',
+    width: '563px',  
     onFirstInteractive: function () {
         console.log("Run this code when the viz has finished loading.");
         }
     };
 var viz2 = new tableau.Viz(vizDiv2, vizURL2, options2);
+var chart1 = viz1.getWorkbook().getActiveSheet();
+var chart2 = viz2.getWorkbook().getActiveSheet();
 
 

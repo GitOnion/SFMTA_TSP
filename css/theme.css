@@ -22,6 +22,7 @@ label {
 .filter-box-title {
     margin: 0, auto;
     text-align: center;
+    height: 100%;
 }
 .filter-name {
     font-weight: bold;
@@ -51,12 +52,24 @@ label {
     position: relative;
     right: 0;
 }
-.tableauPlaceholder {
+.tableauChartHolder{
+    width: 100%;
+    text-align: center;
+}
+.tableauChart {
+    display: inline-block;
     margin-top: 10px;
-    padding: 5px;
+    margin-bottom: 10px;
     border-radius: 5px;
     border-style: solid;
     border-color: grey;
     border-width: 1px;
-    min-height: 100px;
+}
+
+#viz1{
+    margin-right: 10px;
+}
+
+#viz2{
+    margin-left: 10px;
 }
