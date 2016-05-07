@@ -155,8 +155,9 @@ var translation = {
 var allStops = {}; //Holder of all markers
 var allLines = {}; //Holder of all lines
 var daysSelected = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']; //Holder of day selection
-var OBstopsSelected = new Set(); // Seperate IB and OB stops into 2 holders, so
-var IBstopsSelected = new Set(); // they could show in corresponding span
+var OBStopsSelected = new Set(); // Seperate IB and OB stops into 2 holders, so
+var IBStopsSelected = new Set(); // they could show in corresponding span
+var allStopsSelected = new Set();
 
 //Instantiate markers and assign names to stop coordinates, then store the object in OBStops
 $.each(OBCoord, function(stopNo, stopCoord) {
@@ -215,14 +216,15 @@ function formSelectionEvent(element, display) {
     //Select which public variable to push the selected value in
     var valueHolder;
     if (element.name == 'outbound') {
-        valueHolder = OBstopsSelected;
+        valueHolder = OBStopsSelected;
     } else {
-        valueHolder = IBstopsSelected;
+        valueHolder = IBStopsSelected;
     }
     //Add or delete the selected value depending on the check/uncheck status
     if ($(element).prop('checked')) {
         //Add selection into display when it's been selected
         valueHolder.add(select);
+        allStopsSelected.add(select);
         //Change corresponding icon
         if (stopMarker) {
             iconChanger(stopMarker, 'checked', direction);
@@ -231,15 +233,19 @@ function formSelectionEvent(element, display) {
     } else {
         //Pop selection from display when it's been deselected
         valueHolder.delete(select);
+        allStopsSelected.delete(select);
         //Change icon
         if (stopMarker) {
             iconChanger(stopMarker, 'unchecked', direction);
             lineDrawer(select, stopMarker, 'unchecked', direction);
         }
     }
-    // Cast into array, in order to use array's join method
+    // Cast into array, in order to use array's join method, and print it to the right span.
     textHolder = Array.from(valueHolder);
     display.text(textHolder.join(', '));
+    // Get all selected stops and use them as filters
+    textHolder = Array.from(allStopsSelected);
+    console.log(textHolder);
     chart1 = viz1.getWorkbook().getActiveSheet();
     chart2 = viz2.getWorkbook().getActiveSheet();
 		worksheetArray = chart1.getWorksheets();
@@ -326,19 +332,19 @@ $('input:checkbox[name="day"]').change(function() {
     chart1 = viz1.getWorkbook().getActiveSheet();
     chart2 = viz2.getWorkbook().getActiveSheet();
     if(chart1.getSheetType() === 'worksheet') {
-        chart1.applyFilterAsync('WEEKDAY(Datetime)', dayHolder, "REPLACE");
+        chart1.applyFilterAsync('Weekday', dayHolder, "REPLACE");
     } else {
         worksheetArray = chart1.getWorksheets();
         for(var i = 0; i < worksheetArray.length; i++) {
-            worksheetArray[i].applyFilterAsync('WEEKDAY(Datetime)', dayHolder, "REPLACE");
+            worksheetArray[i].applyFilterAsync('Weekday', dayHolder, "REPLACE");
             }
     }
     if(chart2.getSheetType() === 'worksheet') {
-        chart2.applyFilterAsync('WEEKDAY(Datetime)', dayHolder, "REPLACE");
+        chart2.applyFilterAsync('Weekday', dayHolder, "REPLACE");
     } else {
         worksheetArray = chart2.getWorksheets();
         for(var i = 0; i < worksheetArray.length; i++) {
-            worksheetArray[i].applyFilterAsync('WEEKDAY(Datetime)', dayHolder, "REPLACE");
+            worksheetArray[i].applyFilterAsync('Weekday', dayHolder, "REPLACE");
         }
     }
 
